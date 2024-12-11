@@ -1,0 +1,96 @@
+// 标记函数入口点
+(function$Main.exam)
+
+// 根据函数需要的局部变量数量 (3 个)，设置 SP = LCL + 3
+@LCL
+D=M        // D = LCL
+@3
+D=D+A      // D = LCL + 3
+@SP
+M=D        // SP = LCL + 3
+
+// 初始化 local 0 (LCL) 为 0
+@LCL
+A=M        // A 指向 LCL
+M=0        // *LCL = 0
+
+// 初始化 local 1 (LCL+1) 为 0
+@LCL
+D=M        // D = LCL
+@1
+A=D+A      // A = LCL+1
+M=0        // *(LCL+1) = 0
+
+// 初始化 local 2 (LCL+2) 为 0
+@LCL
+D=M        // D = LCL
+@2
+A=D+A      // A = LCL+2
+M=0        // *(LCL+2) = 0
+
+// 此处开始进入函数的实际代码指令
+// （假设后续的函数指令从此处继续往下写）
+
+
+
+// 假设当前为返回过程的代码段（return命令展开）
+
+// FRAME = LCL
+@LCL
+D=M
+@R13
+M=D           // R13 存储当前 FRAME(LCL)
+
+// RET = *(FRAME-5)
+@5
+A=D-A         // A = FRAME-5
+D=M           // D = *(FRAME-5)，即返回地址
+@R14
+M=D           // R14 保存返回地址
+
+// *ARG = pop() ：将返回值写入 ARG 所在位置
+@SP
+AM=M-1        // SP = SP-1, A = SP，M = 栈顶元素
+D=M           // D = 返回值
+@ARG
+A=M           // A = ARG
+M=D           // *ARG = 返回值
+
+// SP = ARG+1 : 设置新栈顶
+D=A+1         // D = ARG+1
+@SP
+M=D           // SP = ARG+1
+
+// 恢复 THAT, THIS, ARG, LCL
+// THAT = *(FRAME-1)
+@R13
+AM=M-1        // R13 = R13-1, A = R13, M = *(R13)
+D=M
+@THAT
+M=D
+
+// THIS = *(FRAME-2)
+@R13
+AM=M-1
+D=M
+@THIS
+M=D
+
+// ARG = *(FRAME-3)
+@R13
+AM=M-1
+D=M
+@ARG
+M=D
+
+// LCL = *(FRAME-4)
+@R13
+AM=M-1
+D=M
+@LCL
+M=D
+
+// Goto RET
+@R14
+A=M
+0;JMP
