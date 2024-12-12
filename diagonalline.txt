@@ -107,3 +107,12 @@ ROM address to jump to on returning from Tetris.play.
 Argument segment for Tetris.play.
 Working stack for Sys.init.
 Call frame for Sys.init.
+
+a) Converting while loops into gotos.  Jack -> Hack VM
+b) Converting labels into specific ROM addresses.Assembly -> Machine code
+c) Mapping virtual memory segments to physical RAM addresses.  Hack VM -> Assembly
+d) Converting arithmetic expressions into sequences of individual arithmetic operations.  Jack -> Hack VM
+e) Mapping local variables to physical RAM addresses.  Hack VM -> Assembly
+f) Mapping static variables to physical RAM addresses. Assembly -> Machine code
+g) Allocating heap memory for objects created by constructor subroutines.  Jack -> Hack VM
+h) Alloating heap memory in general.  None of the other choices
