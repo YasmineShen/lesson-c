@@ -1,0 +1,97 @@
+Goal: Draw a line of 2*RAM[0] pixels going diagonally down-right from the top-left corner of the screen. (You may assume this won't go off the screen.)
+
+Pseudocode:
+
+int length = 2*RAM[0];
+int screen_address = 0x4000;
+int value_to_write = 1;
+for (int i=1; i <= length; i++) {
+	RAM[screen_address] = value_to_write;
+	screen_address += 32;
+	value_to_write *= 2;
+	if (i%16 == 0) {
+		screen_address += 1;
+		value_to_write = 1;
+	}
+}
+
+// int length = 2*RAM[0]
+@0      // Set A = 0, M = RAM[0]
+D=M
+D=M+D   // D = 2*RAM[0]
+@length // Set A = 16
+M=D     // Set RAM[16] = 2*RAM[0]
+
+// int screen_address = 0x4000;
+@SCREEN // Set A = 0x4000
+D=A
+@screen_address // Set A = 17
+M=D
+
+// int value_to_write = 1;
+@value_to_write
+M=1
+
+// int i=1;
+@i
+M=1
+
+(loop_start)
+// if (i - length > 0) goto loop_end;
+@i
+D=M
+@length
+D=D-M // D = i-length
+@loop_end
+D;JGT
+
+// RAM[screen_address] = value_to_write;
+@value_to_write
+D=M
+@screen_address
+A=M
+M=D
+
+// screen_address += 32;
+@screen_address
+D=M
+@32
+D=D+A // D = screen_address+32
+@screen_address
+M=D
+
+// value_to_write *= 2
+@value_to_write
+D=M
+D=D+M
+M=D
+
+// if (i&15 != 0) goto endif
+@i
+D=M
+@15
+D=D&A
+@endif
+D;JNE
+
+// screen_address += 1;
+@screen_address
+M=M+1
+
+// value_to_write = 1;
+@value_to_write
+M=1
+
+(endif)
+
+// i++
+@i
+M=M+1
+
+// goto loop_start;
+@loop_start // Will be read as @11
+0;JMP
+(loop_end)
+
+@loop_end
+0;JMP
