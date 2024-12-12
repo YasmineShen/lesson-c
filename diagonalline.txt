@@ -95,3 +95,15 @@ M=M+1
 
 @loop_end
 0;JMP
+
+1. 
+Working stack for Tetris.play.
+Local segment for Tetris.play.
+Base address of the that segment for Sys.init.
+Base address of the this segment for Sys.init.
+Base address of the argument segment for Sys.init.
+Base address of the local segment for Sys.init.
+ROM address to jump to on returning from Tetris.play.
+Argument segment for Tetris.play.
+Working stack for Sys.init.
+Call frame for Sys.init.
